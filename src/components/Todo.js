@@ -27,6 +27,8 @@ function Todo() {
     /* テストコード 終了 */
   ]);
 
+  const [activeTab, setActiveTab] = React.useState('ALL');
+  
   const onAdd = (input) => {
     const newItem = {
       key: getKey(),
@@ -35,20 +37,29 @@ function Todo() {
     }
     putItems(prev => [...prev, newItem])
   }
+
+  const handleClickTab = (tab) => setActiveTab(tab);
+  
+  const displayItems = items.filter( item => {
+    if(activeTab === "ALL") return true;
+    if(activeTab === "ON_GOING") return !item.done;
+    if(activeTab === "DONE") return item.done;
+  })
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
       <Input onAdd = {onAdd}/>
-      {items.map(item => (
+      <Filter activeTab = {activeTab} handle = {handleClickTab}/>
+      {displayItems.map(item => (
         <TodoItem
           key = {item.key}
           item={item}
           />
       ))}
       <div className="panel-block">
-        {items.length} items
+        {displayItems.length} items
       </div>
     </div>
   );

@@ -8,11 +8,15 @@ import React, {useState} from "react"
 */
 function TodoItem({item}) {
   const [check, setCheck] = useState(false)
-  
+  const handleCheck = () => {
+    setCheck(!check);
+    item.done = !item.done;
+  }
   return (
     <label className="panel-block">
-      <input type="checkbox" onClick={() => setCheck(!check)}/>
-      <p className={check? "has-text-grey-light":""}>{item.text}</p>
+      <input type="checkbox" onClick={handleCheck} 
+        checked = {item.done? true : false}/>
+      <p className={item.done? "has-text-grey-light":""}>{item.text}</p>
     </label>
   );
 }
